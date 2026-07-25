@@ -30,7 +30,7 @@ export function validateTheme(theme: Theme): string | null {
 /**
  * 답안 → 4글자 코드 + 4기질.
  * 응시 제시 순서는 항상 축 순서(EI,SN,TF,JP)로 고정되므로 answers[i] = AXES[i] 로 해석한다.
- * 어떤 문항 변형을 봤는지와 무관하게 축별 선택(0/1)만으로 결정 → 결과 재현성 보존.
+ * 어떤 문항 변형을 봤는지와 무관하게 축별 방향(first/second)만으로 결정(강/약 무관) → 결과 재현성 보존.
  */
 export function scoreAnswers(theme: Theme, answers: readonly Answer[]): ScoreResult {
   if (answers.length !== AXES.length) {

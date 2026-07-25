@@ -1,6 +1,6 @@
 // 결과 공유 인코딩 — ?d= base64url.
 // DB 없이 URL 만으로 결과를 재현한다. 개인정보는 저장하지 않고, 재현에 필요한
-// 값(테마 + 답안 4개)만 담는다. 답안은 축당 0/1 이라 시드조차 필요 없다(순수 결정적).
+// 값(테마 + 답안 4개)만 담는다. 답안은 축당 0~3(0·1=first, 2·3=second)이라 시드조차 필요 없다(순수 결정적).
 // btoa/atob + TextEncoder/TextDecoder 로 브라우저·Cloudflare Workers·Node 공용.
 
 import type { Answer } from "@/lib/typelab-engine";
@@ -8,7 +8,7 @@ import type { Answer } from "@/lib/typelab-engine";
 export interface ResultPayload {
   /** 테마 id (base | love | exam ...) */
   theme: string;
-  /** 문항별 답 0/1, 문항 순서 정렬. 길이 4. */
+  /** 문항별 답 0~3(0·1=first, 2·3=second), 문항 순서(=축 순서) 정렬. 길이 4. */
   answers: Answer[];
 }
 
