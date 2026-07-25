@@ -18,8 +18,23 @@ export type TypeCode = string;
 /** 4기질 그룹 (색·가족 라벨의 근거). */
 export type Temperament = "NT" | "NF" | "SJ" | "SP";
 
-/** 2지선다 답. 0 = 첫째 극(E/S/T/J), 1 = 둘째 극(I/N/F/P). */
-export type Answer = 0 | 1;
+/**
+ * 4점 리커트 답.
+ *  0 = 완전 first(E/S/T/J), 1 = 약간 first, 2 = 약간 second, 3 = 완전 second(I/N/F/P).
+ * 방향(코드 글자)은 first/second 로만 결정되고(0·1→first, 2·3→second), 강/약은 확신도에만 쓰인다.
+ */
+export type Answer = 0 | 1 | 2 | 3;
+
+/** 확신도 수준. clear=뚜렷 / balanced=균형 / edge=경계. */
+export type ConfidenceLevel = "clear" | "balanced" | "edge";
+
+/** 축별 확신도(방향 극 + 강/약). */
+export interface AxisConfidence {
+  axis: Axis;
+  pole: Pole;
+  /** 완전(0/3) 응답이면 true. */
+  strong: boolean;
+}
 
 /** 축 한쪽 극의 정의(글자 + 친근 라벨). */
 export interface PoleDef {
@@ -39,14 +54,14 @@ export interface AxisDef {
 
 /**
  * 테마 문항 하나. 정확히 축 1개의 방향을 결정한다.
- * optFirst 를 고르면(답 0) first 극, optSecond 를 고르면(답 1) second 극.
+ * 리커트 눈금의 좌우 앵커 문구를 담는다: optFirst=first 극(답 0·1), optSecond=second 극(답 2·3).
  */
 export interface ThemeQuestion {
   axis: Axis;
   prompt: string;
-  /** 답 0 → first 극(E/S/T/J) 선택지 문구. */
+  /** 왼쪽 앵커 — first 극(E/S/T/J). 답 0(완전)·1(약간). */
   optFirst: string;
-  /** 답 1 → second 극(I/N/F/P) 선택지 문구. */
+  /** 오른쪽 앵커 — second 극(I/N/F/P). 답 2(약간)·3(완전). */
   optSecond: string;
 }
 

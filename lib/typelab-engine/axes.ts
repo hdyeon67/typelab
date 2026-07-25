@@ -40,10 +40,23 @@ export function polesOf(axis: Axis): [Pole, Pole] {
   return [def.first.letter, def.second.letter];
 }
 
-/** 답(0/1)을 해당 축의 극 글자로 변환. */
+/** 4점 답(0~3)을 해당 축의 극 글자로 변환. 0·1 → first(E/S/T/J), 2·3 → second(I/N/F/P). */
 export function poleForAnswer(axis: Axis, answer: number): Pole {
   const def = AXIS_DEFS[axis];
-  return answer === 0 ? def.first.letter : def.second.letter;
+  return answer <= 1 ? def.first.letter : def.second.letter;
+}
+
+/** 답의 강도. 0/3(완전) → 1(강), 1/2(약간) → 0(약). */
+export function strengthOf(answer: number): 0 | 1 {
+  return answer === 0 || answer === 3 ? 1 : 0;
+}
+
+/** 축 반대 극 글자 (코드 한 글자 뒤집기용). */
+const POLE_FLIP: Record<Pole, Pole> = {
+  E: "I", I: "E", S: "N", N: "S", T: "F", F: "T", J: "P", P: "J",
+};
+export function flipPole(pole: Pole): Pole {
+  return POLE_FLIP[pole];
 }
 
 /**

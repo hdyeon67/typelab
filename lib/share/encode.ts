@@ -32,25 +32,42 @@ function b64urlDecode(s: string): string {
   return new TextDecoder().decode(bytes);
 }
 
-/** 결과 payload → ?d= 값 */
+/** 0~3 범위로 정규화. */
+function clampAns(n: unknown): Answer {
+  const v = typeof n === "number" && Number.isFinite(n) ? Math.round(n) : 0;
+  return (v < 0 ? 0 : v > 3 ? 3 : v) as Answer;
+}
+
+/** 결과 payload → ?d= 값 (v2: answers 0~3). */
 export function encodeResult(p: ResultPayload): string {
   const compact = {
-    v: 1,
+    v: 2,
     t: p.theme.slice(0, MAX_THEME_LEN),
-    a: p.answers.slice(0, N_QUESTIONS).map((n) => (n === 1 ? 1 : 0)),
+    a: p.answers.slice(0, N_QUESTIONS).map(clampAns),
   };
   return b64urlEncode(JSON.stringify(compact));
 }
 
-/** ?d= 값 → 결과 payload. 형식이 어긋나면 null */
+/**
+ * ?d= 값 → 결과 payload. 형식이 어긋나면 null.
+ * 하위호환: v=1(구 0/1 2지선다) 링크는 0→0(완전 first), 1→3(완전 second)으로 매핑해 해석.
+ */
 export function decodeResult(d: string): ResultPayload | null {
   try {
     const o = JSON.parse(b64urlDecode(d)) as Record<string, unknown>;
-    if (o.v !== 1) return null;
     if (typeof o.t !== "string" || o.t.length === 0) return null;
     if (!Array.isArray(o.a) || o.a.length !== N_QUESTIONS) return null;
-    const answers = o.a.map((n) => (n === 1 ? 1 : 0)) as Answer[];
-    return { theme: o.t.slice(0, MAX_THEME_LEN), answers };
+    const theme = o.t.slice(0, MAX_THEME_LEN);
+    if (o.v === 1) {
+      // 구 버전: 0=first / 1=second → 완전(0/3)으로 승격
+      const answers = o.a.map((n) => (n === 1 ? 3 : 0)) as Answer[];
+      return { theme, answers };
+    }
+    if (o.v === 2) {
+      const answers = o.a.map(clampAns) as Answer[];
+      return { theme, answers };
+    }
+    return null;
   } catch {
     return null;
   }

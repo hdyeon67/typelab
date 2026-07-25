@@ -5,6 +5,13 @@ import type { ResultCopy } from "@/lib/content/select";
 import { colorFor } from "@/lib/theme/colors";
 import { emojiFor } from "@/lib/content/emoji";
 
+/** 확신도 라벨 (퍼센트 미표기). */
+const CONF_LABEL: Record<string, string> = {
+  clear: "뚜렷한 유형",
+  balanced: "균형 잡힌 유형",
+  edge: "경계에 걸친 유형",
+};
+
 /**
  * 결과 캐릭터 카드 (세로 3:4, 캐릭터가 주인공).
  * /public/types/{code}.png 를 쓰되, 없으면 (기질 가족색 + 동물 이모지 + 캐릭터명) 폴백.
@@ -70,6 +77,28 @@ export function ResultCard({ copy }: { copy: ResultCopy }) {
         <p className="mt-0.5 text-[11px] font-bold" style={{ color: color.accent }}>
           {color.group} 유형
         </p>
+
+        {/* 확신도 뱃지 — 라벨 + 강축 수만큼 채운 점 4개 (퍼센트 없음) */}
+        <div className="mt-2 flex items-center justify-center gap-2">
+          <span
+            className="rounded-full px-2 py-0.5 text-[10px] font-bold"
+            style={{ backgroundColor: color.bg, color: color.accent }}
+          >
+            {CONF_LABEL[copy.confidence.level]}
+          </span>
+          <span className="flex gap-0.5" aria-hidden>
+            {[0, 1, 2, 3].map((i) => (
+              <span
+                key={i}
+                className="size-1.5 rounded-full"
+                style={{
+                  backgroundColor: i < copy.confidence.strongCount ? color.accent : "rgba(44,42,58,0.15)",
+                }}
+              />
+            ))}
+          </span>
+        </div>
+
         <p className="text-ink-soft mt-2 text-sm leading-relaxed">{copy.identity}</p>
       </div>
     </div>

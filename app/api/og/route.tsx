@@ -167,6 +167,13 @@ function BrandCard({ scale }: { scale: number }) {
   );
 }
 
+/** 확신도 라벨 (퍼센트 미표기) — 카드까지만, 2순위 줄은 카드 밖. */
+const CONF_LABEL: Record<string, string> = {
+  clear: "뚜렷한 유형",
+  balanced: "균형 잡힌 유형",
+  edge: "경계에 걸친 유형",
+};
+
 function TypeCard({
   copy,
   accent,
@@ -229,6 +236,22 @@ function TypeCard({
           >
             {copy.code}
           </div>
+        </div>
+
+        {/* 확신도 뱃지 (라벨만, 퍼센트 없음) */}
+        <div
+          style={{
+            display: "flex",
+            marginTop: px(14),
+            fontSize: px(22),
+            fontWeight: 700,
+            color: accent,
+            border: `${px(2)}px solid ${accent}`,
+            borderRadius: px(999),
+            padding: `${px(4)}px ${px(18)}px`,
+          }}
+        >
+          {CONF_LABEL[copy.confidence.level]}
         </div>
 
         <div

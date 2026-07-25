@@ -101,31 +101,51 @@ export function QuizRunner() {
 
         <h2 className="text-ink mt-3 text-xl font-bold leading-snug">{q.prompt}</h2>
 
-        <div className="mt-6 space-y-3">
-          {([
-            [0, q.optFirst],
-            [1, q.optSecond],
-          ] as const).map(([value, text]) => {
-            const selected = answers[idx] === value;
-            return (
-              <button
-                key={value}
-                onClick={() => choose(value as Answer)}
-                className={`w-full rounded-2xl border-2 px-5 py-4 text-left text-[15px] leading-snug transition active:translate-x-[1px] active:translate-y-[1px] ${
-                  selected
-                    ? "border-pop bg-pop/10 text-ink"
-                    : "border-ink/12 hover:border-pop/50 text-ink bg-white"
-                }`}
-              >
-                {text}
-              </button>
-            );
-          })}
+        {/* 리커트 한 줄 눈금 — 좌/우=방향(코드), 끝/안=강/약(확신도). 탭 1회로 값 저장 후 다음 문항. */}
+        <div className="mt-7">
+          <div className="text-ink flex items-start justify-between gap-3 text-[13px] font-semibold">
+            <span className="max-w-[44%] leading-snug">{q.optFirst}</span>
+            <span className="max-w-[44%] text-right leading-snug">{q.optSecond}</span>
+          </div>
+
+          <div className="relative mt-4">
+            {/* 눈금 선 */}
+            <div className="bg-ink/15 absolute left-[11%] right-[11%] top-[22px] h-[3px] -translate-y-1/2" />
+            <div className="relative flex items-start justify-between">
+              {[0, 1, 2, 3].map((value) => {
+                const selected = answers[idx] === value;
+                const strong = value === 0 || value === 3;
+                const side = value <= 1 ? q.optFirst : q.optSecond;
+                return (
+                  <button
+                    key={value}
+                    onClick={() => choose(value as Answer)}
+                    aria-label={`${side} 쪽으로 ${strong ? "강하게" : "약하게"}`}
+                    aria-pressed={selected}
+                    className="flex flex-col items-center"
+                    style={{ minWidth: 44 }}
+                  >
+                    <span className="flex items-center justify-center" style={{ height: 44 }}>
+                      <span
+                        className={`rounded-full border-[3px] transition ${
+                          selected
+                            ? "border-pop bg-pop shadow-popsm"
+                            : "border-ink/30 hover:border-pop/50 bg-white"
+                        }`}
+                        style={{ width: strong ? 30 : 22, height: strong ? 30 : 22 }}
+                      />
+                    </span>
+                    <span className="text-ink-faint mt-1 text-[10px]">{strong ? "완전" : "약간"}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
       <p className="text-ink-faint mt-6 text-center text-[11px]">
-        답을 고르면 다음 문항으로 넘어가요 · 4문항 30초
+        눈금을 탭하면 다음 문항으로 넘어가요 · 4문항 30초
       </p>
     </main>
   );

@@ -89,6 +89,17 @@ export default async function ResultPage({
 
       <ResultCard copy={copy} />
 
+      {/* 2순위 유형 — 경계 축이 있을 때만 (카드 밖 본문) */}
+      {copy.second && (
+        <p className="text-ink-soft mx-auto mt-3 max-w-[340px] text-center text-xs leading-relaxed">
+          {copy.second.dimension} 축이 거의 반반이라{" "}
+          <b className="text-ink">
+            {copy.second.animal}({copy.second.code})
+          </b>{" "}
+          기질도 함께 있어요.
+        </p>
+      )}
+
       {/* 테마 맥락 한 줄 */}
       <p
         className="mx-auto mt-5 max-w-[340px] rounded-2xl px-4 py-3 text-center text-sm font-bold"

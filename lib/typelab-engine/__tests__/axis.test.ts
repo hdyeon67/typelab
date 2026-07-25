@@ -3,7 +3,7 @@ import type { Answer } from "../types";
 import { AXES } from "../types";
 import { scoreAnswers } from "../score";
 import { BASE_THEME, THEMES, buildQuestionSet } from "../catalog";
-import { allAnswerCombos } from "./fixtures";
+import { allAnswerCombos, weaken } from "./fixtures";
 
 /** 두 코드에서 서로 다른 위치의 인덱스 목록. */
 function diffPositions(a: string, b: string): number[] {
@@ -18,10 +18,22 @@ describe("각 답은 지정 축만 움직인다", () => {
       const baseCode = scoreAnswers(BASE_THEME, base).code;
       for (let i = 0; i < AXES.length; i++) {
         const flipped = [...base] as Answer[];
-        flipped[i] = (base[i] === 0 ? 1 : 0) as Answer;
+        // 방향 반대 극으로 (완전 first 0 ↔ 완전 second 3)
+        flipped[i] = (base[i] === 0 ? 3 : 0) as Answer;
         const positions = diffPositions(baseCode, scoreAnswers(BASE_THEME, flipped).code);
         expect(positions).toHaveLength(1);
         expect(positions[0]).toBe(i);
+      }
+    }
+  });
+});
+
+describe("강/약은 코드에 영향 없다", () => {
+  it("완전(0/3) 답을 같은 방향 약간(1/2)으로 바꿔도 코드는 동일", () => {
+    for (const theme of THEMES) {
+      for (const strong of allAnswerCombos()) {
+        const weak = weaken(strong);
+        expect(scoreAnswers(theme, weak).code).toBe(scoreAnswers(theme, strong).code);
       }
     }
   });
