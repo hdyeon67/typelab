@@ -2,17 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ⚠️ 아래 브랜드 색은 lib/config/brand.ts 의 미러다(CSS 는 TS 를 import 할 수 없다).
+   값을 바꾸려면 brand.ts 를 먼저 고칠 것 — 어긋나면 brand.test.ts 가 깨진다. */
 :root {
   --cream: #fff6e9;
   --ink: #2c2a3a;
+  --pop: #ff8a5c; /* = BRAND.light 살구 포인트 */
+  --pop-deep: #f26a3a; /* = BRAND.deep 호버·프레스 */
+  --pop-dark: #d8402b; /* = BRAND.dark 아이덴티티(아이콘·PWA·크롭마크) */
 
   /* shadcn 계열 토큰 (HSL) */
   --foreground: 250 15% 20%;
   --muted-foreground: 250 8% 44%;
   --border: 32 60% 86%;
-  --primary: 20 90% 62%;
+  --primary: 16.9 100% 68%; /* = BRAND.light #ff8a5c (구 20 90% 62% = #f58147 드리프트 교정) */
 
-  /* 4기질 가족색 (lib/theme/colors.ts 와 값 일치) */
+  /* 4기질 가족색 (typelab-core 의 theme/colors 와 값 일치) */
   --nt-bg: 268 45% 94%;
   --nt-accent: 268 50% 64%;
   --nf-bg: 158 42% 93%;
