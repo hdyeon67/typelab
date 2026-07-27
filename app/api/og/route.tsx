@@ -314,25 +314,10 @@ function TypeCard({
           fontSize: px(32),
           lineHeight: 1.4,
           color: SOFT,
-          maxWidth: px(tall ? 680 : 620),
+          maxWidth: px(tall ? 680 : 676),
         }}
       >
         {copy.identity}
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          marginTop: px(26),
-          border: `${px(3)}px solid ${accent}`,
-          borderRadius: px(999),
-          padding: `${px(10)}px ${px(26)}px`,
-          fontSize: px(26),
-          fontWeight: 700,
-          color: accent,
-        }}
-      >
-        4문항 30초 · typecut.fineboll.com
       </div>
     </div>
   );
