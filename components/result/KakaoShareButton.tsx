@@ -72,6 +72,10 @@ export function KakaoShareButton({
         title,
         description,
         imageUrl: image,
+        // 크기를 안 넘기면 카카오가 800×800 정사각으로 크롭한다(우측이 잘림).
+        // 실제 카드 비율(1200×630)을 명시해야 와이드로 표시된다.
+        imageWidth: 1200,
+        imageHeight: 630,
         link: { mobileWebUrl: url, webUrl: url },
       },
       buttons: [
