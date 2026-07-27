@@ -8,19 +8,26 @@
 Next.js 14+ (App Router) · TypeScript · Tailwind · Cloudflare Workers(OpenNext). DB 없음, 실시간 AI 호출 없음(운영비 0원). 결과 공유는 `?d=` base64url(개인정보 미저장).
 
 ## 구조
-- `lib/typelab-engine/` — 결정적 엔진(4문항 채점·코드 확정·변형 시드·테마 카탈로그) + 단위 테스트.
-- `lib/content/` — 16유형 본체(type-detail)·테마 코멘트·결과 조립(select)·가이드.
-- `lib/config/` — site·flags(env 게이트)·promos(크로스 프로모션).
-- `lib/theme/colors.ts` — 4기질(NT/NF/SJ/SP) 가족색.
+채점·문구·인코딩은 **[typelab-core](../typelab-core)** 로 분리되어 있다(앱인토스판과 공유).
+이 저장소에는 웹 채널에만 해당하는 것만 남는다.
+
+- `typelab-core` (`file:../typelab-core`, `transpilePackages`) — 결정적 엔진(4문항 채점·코드
+  확정·확신도·변형 시드·테마 카탈로그) · 16유형 본체 · 테마 코멘트 · 결과 조립 · 4기질
+  가족색 · `?d=` 인코딩. **로직·문구 수정은 전부 코어에서** 한다.
+- `lib/config/` — site·flags(env 게이트)·promos(크로스 프로모션)·og(정적 OG 카드 매핑).
+- `lib/content/guides.ts` — SEO 가이드 2종 본문(웹 전용).
+- `lib/analytics/` — PostHog 계측(app="typelab"). 앱인토스판은 별도 채널값을 쓴다.
 - `app/` — 랜딩(`/`)·응시(`/quiz`)·결과(`/result`)·가이드·about·privacy·OG(`/api/og`).
 
 ## 개발
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm test         # vitest (엔진·콘텐츠)
+npm test         # vitest — 코어 배선 스모크 3개
 npx tsc --noEmit # 타입 체크
 ```
+⚠️ 엔진·문구·인코딩의 회귀 테스트 40개는 코어가 갖는다 → `cd ../typelab-core && npm test`.
+코어를 고쳤으면 **양쪽 다** 돌린다.
 
 ## 배포 (Cloudflare Workers)
 ```bash

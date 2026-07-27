@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { scoreAnswers, getTheme, variantSeed } from "@/lib/typelab-engine";
-import { buildResultCopy } from "@/lib/content/select";
-import { decodeResult } from "@/lib/share/encode";
+import {
+  scoreAnswers,
+  getTheme,
+  variantSeed,
+  buildResultCopy,
+  decodeResult,
+  colorFor,
+} from "typelab-core";
 import { ogImageFor } from "@/lib/config/og";
-import { colorFor } from "@/lib/theme/colors";
 import { ResultCard } from "@/components/result/ResultCard";
 import { ResultActions } from "@/components/result/ResultActions";
 import { ResultTracker } from "@/components/result/ResultTracker";

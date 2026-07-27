@@ -9,10 +9,14 @@
 //   fmt: og(1200×630 링크) · card(900×1200 3:4 저장) · home(1200×630)
 
 import { ImageResponse } from "next/og";
-import { decodeResult } from "@/lib/share/encode";
-import { scoreAnswers, getTheme } from "@/lib/typelab-engine";
-import { buildResultCopy, type ResultCopy } from "@/lib/content/select";
-import { TEMPERAMENT_COLORS } from "@/lib/theme/colors";
+import {
+  decodeResult,
+  scoreAnswers,
+  getTheme,
+  buildResultCopy,
+  TEMPERAMENT_COLORS,
+  type ResultCopy,
+} from "typelab-core";
 
 export const runtime = "nodejs";
 

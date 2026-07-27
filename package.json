@@ -16,7 +16,8 @@
   "dependencies": {
     "next": "^15.5.20",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "typelab-core": "file:../typelab-core"
   },
   "devDependencies": {
     "@opennextjs/cloudflare": "^1.20.1",

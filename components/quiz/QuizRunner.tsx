@@ -3,11 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import type { Answer, Axis, ThemeQuestion } from "@/lib/typelab-engine";
-import { getTheme, BASE_THEME, buildQuestionSet } from "@/lib/typelab-engine";
-import { encodeResult } from "@/lib/share/encode";
+import type { Answer, Axis, ThemeQuestion } from "typelab-core";
+import { getTheme, BASE_THEME, buildQuestionSet, encodeResult, AXIS_DEFS } from "typelab-core";
 import { track } from "@/lib/analytics";
-import { AXIS_DEFS } from "@/lib/typelab-engine/axes";
 
 // 직전에 뽑은 변형 인덱스 기억(모듈 스코프, 영속 저장 아님) — 재응시 시 같은 변형 반복 완화.
 const lastPick: Record<string, number> = {};

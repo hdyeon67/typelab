@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { THEMES } from "@/lib/typelab-engine";
+import { THEMES } from "typelab-core";
 import { track, referrerType } from "@/lib/analytics";
 
 /** 테마 표시 메타 (엔진 Theme 에 없는 이모지·태그라인). */

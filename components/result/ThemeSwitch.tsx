@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { THEMES } from "@/lib/typelab-engine";
+import { THEMES } from "typelab-core";
 import { track } from "@/lib/analytics";
 
 /** 다른 테마도 해보기 — 시리즈 순환(재방문 유도). 현재 테마는 제외. */

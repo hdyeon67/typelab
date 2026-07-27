@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { ResultCopy } from "@/lib/content/select";
-import { colorFor } from "@/lib/theme/colors";
-import { emojiFor } from "@/lib/content/emoji";
+import type { ResultCopy } from "typelab-core";
+import { colorFor, emojiFor } from "typelab-core";
 
 /** 확신도 라벨 (퍼센트 미표기). */
 const CONF_LABEL: Record<string, string> = {
