@@ -3,6 +3,7 @@ import Link from "next/link";
 import { scoreAnswers, getTheme, variantSeed } from "@/lib/typelab-engine";
 import { buildResultCopy } from "@/lib/content/select";
 import { decodeResult } from "@/lib/share/encode";
+import { ogImageFor } from "@/lib/config/og";
 import { colorFor } from "@/lib/theme/colors";
 import { ResultCard } from "@/components/result/ResultCard";
 import { ResultActions } from "@/components/result/ResultActions";
@@ -40,7 +41,8 @@ export async function generateMetadata({
   // H1/OG 는 "캐릭터명(코드)" 병기 (도담 확정: 자기 결과 공유 맥락이라 허용).
   const title = `${r.copy.animal}(${r.code})`;
   const description = `${r.copy.identity} · 타입컷 4문항 유형 테스트`;
-  const ogImage = `/api/og?d=${encodeURIComponent(d as string)}`;
+  // 도담 정적 카드 우선(없으면 동적 /api/og 폴백). 절대 URL.
+  const ogImage = ogImageFor(r.code, d as string);
   return {
     ...base,
     title,
@@ -78,6 +80,7 @@ export default async function ResultPage({
   const seed = variantSeed(theme.themeId, answers);
   const shareTitle = `${copy.animal}(${code})`;
   const shareDesc = "너는 무슨 유형? 4문항 30초 타입컷 ⚡";
+  const ogImage = ogImageFor(code, d as string);
 
   return (
     <main className="mx-auto max-w-md px-5 py-8">
@@ -133,7 +136,7 @@ export default async function ResultPage({
         </div>
       </section>
 
-      <ResultActions shareTitle={shareTitle} shareDesc={shareDesc} />
+      <ResultActions shareTitle={shareTitle} shareDesc={shareDesc} ogImage={ogImage} />
 
       <ThemeSwitch currentTheme={theme.themeId} />
 

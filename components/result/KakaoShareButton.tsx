@@ -19,7 +19,16 @@ declare global {
 
 const SDK_SRC = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js";
 
-export function KakaoShareButton({ title, description }: { title: string; description: string }) {
+export function KakaoShareButton({
+  title,
+  description,
+  imageUrl,
+}: {
+  title: string;
+  description: string;
+  /** 공유 미리보기 이미지 절대 URL(정적 카드 우선). 없으면 동적 /api/og 폴백. */
+  imageUrl?: string;
+}) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -55,7 +64,8 @@ export function KakaoShareButton({ title, description }: { title: string; descri
     track("share_click", { channel: "kakao" });
     const url = window.location.href;
     const d = new URLSearchParams(window.location.search).get("d") ?? "";
-    const image = `${window.location.origin}/api/og?d=${encodeURIComponent(d)}`;
+    // 정적 OG 카드 우선(prop), 없으면 동적 /api/og 폴백.
+    const image = imageUrl || `${window.location.origin}/api/og?d=${encodeURIComponent(d)}`;
     window.Kakao.Share.sendDefault({
       objectType: "feed",
       content: {

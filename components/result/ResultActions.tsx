@@ -10,9 +10,12 @@ import { KakaoShareButton } from "./KakaoShareButton";
 export function ResultActions({
   shareTitle,
   shareDesc,
+  ogImage,
 }: {
   shareTitle: string;
   shareDesc: string;
+  /** 공유 미리보기 이미지 절대 URL(정적 카드 우선). 카카오로 전달. */
+  ogImage: string;
 }) {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
@@ -34,7 +37,7 @@ export function ResultActions({
       <PngSaveButton fmt="card" label="이미지 저장" />
 
       {/* 카카오 공유 (JS 키 있을 때만 노출) */}
-      <KakaoShareButton title={shareTitle} description={shareDesc} />
+      <KakaoShareButton title={shareTitle} description={shareDesc} imageUrl={ogImage} />
 
       <div className="flex gap-2.5">
         <button
