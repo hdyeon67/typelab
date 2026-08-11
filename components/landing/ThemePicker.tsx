@@ -9,7 +9,7 @@ import { track, referrerType } from "@/lib/analytics";
 const THEME_META: Record<string, { emoji: string; tagline: string }> = {
   base: { emoji: "🧭", tagline: "요즘 나 사용설명서 · 첫 진입엔 이걸로" },
   love: { emoji: "💘", tagline: "같은 나를 연애 상황으로 · 케미까지" },
-  exam: { emoji: "📚", tagline: "시험기간의 나 · 수능 시즌 훅" },
+  exam: { emoji: "📚", tagline: "시험기간의 나 · 수능 시즌에 딱" },
 };
 
 /** 랜딩 — 테마 카드 3개. 입력 없이 바로 시작. */
